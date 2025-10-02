@@ -4,6 +4,10 @@ export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
+  router: {
+    middleware: 'authenticated'
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - app',
@@ -25,6 +29,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/firebase.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -91,6 +96,11 @@ export default {
   watchers: {
     webpack: {
       poll: true
+    },
+    chokidar: {
+      usePolling: true,
+      interval: 1000,
+      ignoreInitial: true
     }
   }
 }

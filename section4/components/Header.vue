@@ -1,9 +1,7 @@
 <template>
   <div>
-    <v-navigation-drawer
+      <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
       fixed
       app
     >
@@ -25,23 +23,29 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <div v-show="isLoggedIn">
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      </div>
       <v-toolbar-title v-text="title" />
       <v-spacer />
     </v-app-bar>
+    {{ books }}
   </div>
 </template>
 
 <script>
 export default {
-  data() {
+  props:{
+    books: {
+      type: Array,
+      default: null
+    }
+  },
+  data(){
     return {
       drawer: false,
-      items: [
+       items: [
         {
           icon: 'mdi-apps',
           title: 'Welcome',
@@ -51,9 +55,18 @@ export default {
           icon: 'mdi-chart-bubble',
           title: 'Inspire',
           to: '/inspire'
+        },
+        {
+          title: 'Logout',
+          to: '/auth/logout'
         }
       ],
-      title: 'bookApp'
+      title: 'bookApp',
+    }
+  },
+  computed:{
+    isLoggedIn(){
+      return this.$store.getters['auth/getLoggedIn']
     }
   }
 }
